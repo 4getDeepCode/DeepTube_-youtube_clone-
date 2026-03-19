@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      dbName: "DeepTube-(Youtube Clone)",
+      dbName: "DeepTube_Youtube_Clone",
     });
 
     console.log(`MongoDB Connected: ${conn.connection.host}`);
