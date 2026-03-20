@@ -1,4 +1,4 @@
-import uploadOnCloudinary from "../config/cloudinary.js"
+import uploadOnCloudinary from "../config/cloudinary.js";
 import Channel from "../models/channelModel.js";
 import Short from "../models/shortModel.js";
 import User from "../models/userModel.js";
@@ -87,8 +87,7 @@ export const updateChannelService = async (data, files, userId) => {
 
 // Get Channel
 export const getChannelService = async (userId) => {
-  const channel = await Channel.findOne({ owner: userId })
-    .populate("owner");
+  const channel = await Channel.findOne({ owner: userId }).populate("owner");
 
   if (!channel) throw new Error("Channel not found");
 
@@ -105,7 +104,9 @@ export const toggleSubscribeService = async (channelId, userId) => {
   const channel = await Channel.findById(channelId);
   if (!channel) throw new Error("Channel not found");
 
-  const isSubscribed = channel.subscribers.includes(userId);
+  const subscribers = channel.subscribers || [];
+
+  const isSubscribed = subscribers.includes(userId.toString());
 
   if (isSubscribed) {
     channel.subscribers.pull(userId);
@@ -160,7 +161,7 @@ export const getHistoryService = async (userId) => {
   if (!user) throw new Error("User not found");
 
   return user.history.sort(
-    (a, b) => new Date(b.watchedAt) - new Date(a.watchedAt)
+    (a, b) => new Date(b.watchedAt) - new Date(a.watchedAt),
   );
 };
 

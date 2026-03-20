@@ -17,14 +17,6 @@ const channelSchema = new mongoose.Schema(
       lowercase: true,
     },
 
-    handle: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      lowercase: true,
-    },
-
     description: {
       type: String,
       default: "",
@@ -47,18 +39,40 @@ const channelSchema = new mongoose.Schema(
       default: "",
     },
 
-    // Scalable approach
-    subscribersCount: {
-      type: Number,
-      default: 0,
-    },
+    subscribers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
 
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
+    videos: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Video",
+      },
+    ],
+
+    shorts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Short",
+      },
+    ],
+    playlists: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Playlist",
+      },
+    ],
+    communityPosts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Channel = mongoose.model("Channel", channelSchema);
