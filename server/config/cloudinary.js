@@ -3,7 +3,7 @@ import fs from "fs";
 
 // Configure ONCE
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
@@ -24,7 +24,8 @@ const uploadOnCloudinary = async (filePath, folder = "deeptube") => {
 
     return response.secure_url;
   } catch (error) {
-    console.log("Cloudinary Upload Error:", error.message);
+    console.log("Cloudinary Error Message:", error?.message);
+    console.log("Cloudinary Error Response:", error?.response);
 
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
