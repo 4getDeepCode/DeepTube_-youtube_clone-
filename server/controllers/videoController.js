@@ -1,5 +1,6 @@
 import {
   createVideoService,
+  deleteVideoService,
   fetchVideoService,
   getAllVideosService,
   getChannelVideosService,
@@ -61,10 +62,20 @@ export const updateVideo = async (req, res) => {
     const video = await updateVideoService(
       req.params.videoId,
       req.body,
-      req.file
+      req.file,
     );
     res.status(200).json(video);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+// DELETE VIDEO
+export const deleteVideo = async (req, res) => {
+  try {
+    await deleteVideoService(req.params.videoId);
+    res.status(200).json({ message: "Deleted successfully" });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
   }
 };

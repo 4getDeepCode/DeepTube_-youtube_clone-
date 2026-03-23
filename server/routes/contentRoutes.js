@@ -3,6 +3,7 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/multer.js";
 import {
   createVideo,
+  deleteVideo,
   fetchVideo,
   getAllVideos,
   getChannelVideos,
@@ -35,5 +36,7 @@ contentRouter.get("/fetch-video/:videoId", authMiddleware, fetchVideo);
 // UPDATE VIDEO
 contentRouter.put("/update-video/:videoId",authMiddleware,upload.single("thumbnail"),updateVideo);
 
+// DELETE VIDEO
+contentRouter.delete("/delete-video/:videoId",authMiddleware,deleteVideo);
 
 export default contentRouter;

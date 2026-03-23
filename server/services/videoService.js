@@ -59,7 +59,6 @@ export const getAllVideosService = async () => {
     .sort({ createdAt: -1 });
 };
 
-
 // GET SINGLE VIDEO
 export const fetchVideoService = async (videoId) => {
   const video = await Video.findById(videoId)
@@ -96,4 +95,16 @@ export const updateVideoService = async (videoId, body, file) => {
 
   await video.save();
   return video;
+};
+
+// DELETE VIDEO
+export const deleteVideoService = async (videoId) => {
+  const video = await Video.findById(videoId);
+  if (!video) throw new Error("Video not found");
+
+  await Channel.findByIdAndUpdate(video.channel, {
+    $pull: { videos: video._id },
+  });
+
+  await Video.findByIdAndDelete(videoId);
 };
