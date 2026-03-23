@@ -1,7 +1,6 @@
 import Channel from "../models/channelModel.js";
-import uploadOnCloudinary from "../config/cloudinary.js"
+import uploadOnCloudinary from "../config/cloudinary.js";
 import Video from "../models/videoModel.js";
-
 
 // CREATE VIDEO
 
@@ -41,4 +40,15 @@ export const createVideoService = async (body, files) => {
   });
 
   return newVideo;
+};
+
+// GET CHANNEL VIDEOS
+export const getChannelVideosService = async (channelId) => {
+  if (!channelId) throw new Error("Channel ID is required");
+
+  const videos = await Video.find({ channel: channelId })
+    .select("title thumbnail createdAt")
+    .sort({ createdAt: -1 });
+
+  return videos;
 };
