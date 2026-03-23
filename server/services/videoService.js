@@ -52,3 +52,10 @@ export const getChannelVideosService = async (channelId) => {
 
   return videos;
 };
+
+// GET ALL VIDEOS
+export const getAllVideosService = async () => {
+  return await Video.find()
+    .populate("channel comments.author comments.replies.author")
+    .sort({ createdAt: -1 });
+};

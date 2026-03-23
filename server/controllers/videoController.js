@@ -1,5 +1,6 @@
 import {
   createVideoService,
+  getAllVideosService,
   getChannelVideosService,
 } from "../services/videoService.js";
 
@@ -29,5 +30,15 @@ export const getChannelVideos = async (req, res) => {
       success: false,
       message: error.message,
     });
+  }
+};
+
+// GET ALL
+export const getAllVideos = async (req, res) => {
+  try {
+    const videos = await getAllVideosService();
+    res.status(200).json(videos);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

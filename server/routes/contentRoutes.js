@@ -3,6 +3,7 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/multer.js";
 import {
   createVideo,
+  getAllVideos,
   getChannelVideos,
 } from "../controllers/videoController.js";
 
@@ -20,8 +21,10 @@ contentRouter.post(
   createVideo,
 );
 
-//GET CHANNEL VIDEOS
-
+// GET CHANNEL VIDEOS
 contentRouter.get("/channel/:channelId", getChannelVideos);
+
+// GET ALL VIDEOS
+contentRouter.get("/all-videos", getAllVideos)
 
 export default contentRouter;
