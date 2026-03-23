@@ -1,7 +1,9 @@
 import {
   createVideoService,
+  fetchVideoService,
   getAllVideosService,
   getChannelVideosService,
+  updateVideoService,
 } from "../services/videoService.js";
 
 // CREATE
@@ -40,5 +42,29 @@ export const getAllVideos = async (req, res) => {
     res.status(200).json(videos);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+// GET ONE
+export const fetchVideo = async (req, res) => {
+  try {
+    const video = await fetchVideoService(req.params.videoId);
+    res.status(200).json(video);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+// UPDATE VIDEO
+export const updateVideo = async (req, res) => {
+  try {
+    const video = await updateVideoService(
+      req.params.videoId,
+      req.body,
+      req.file
+    );
+    res.status(200).json(video);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 };

@@ -3,7 +3,6 @@ import uploadOnCloudinary from "../config/cloudinary.js";
 import Video from "../models/videoModel.js";
 
 // CREATE VIDEO
-
 export const createVideoService = async (body, files) => {
   const { title, description, tags, channel } = body;
 
@@ -58,4 +57,43 @@ export const getAllVideosService = async () => {
   return await Video.find()
     .populate("channel comments.author comments.replies.author")
     .sort({ createdAt: -1 });
+};
+
+
+// GET SINGLE VIDEO
+export const fetchVideoService = async (videoId) => {
+  const video = await Video.findById(videoId)
+    .populate("channel", "name avatar")
+    .populate("likes", "username photoUrl");
+
+  if (!video) throw new Error("Video not found");
+
+  return video;
+};
+
+// UPDATE VIDEO
+export const updateVideoService = async (videoId, body, file) => {
+  const video = await Video.findById(videoId);
+  if (!video) throw new Error("Video not found");
+
+  const { title, description, tags } = body;
+
+  if (title) video.title = title;
+  if (description) video.description = description;
+
+  if (tags) {
+    try {
+      video.tags = JSON.parse(tags);
+    } catch {
+      video.tags = [];
+    }
+  }
+
+  if (file) {
+    const uploadedThumbnail = await uploadOnCloudinary(file.path);
+    video.thumbnail = uploadedThumbnail;
+  }
+
+  await video.save();
+  return video;
 };

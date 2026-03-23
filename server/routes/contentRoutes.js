@@ -3,8 +3,10 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/multer.js";
 import {
   createVideo,
+  fetchVideo,
   getAllVideos,
   getChannelVideos,
+  updateVideo,
 } from "../controllers/videoController.js";
 
 const contentRouter = express.Router();
@@ -22,9 +24,16 @@ contentRouter.post(
 );
 
 // GET CHANNEL VIDEOS
-contentRouter.get("/channel/:channelId", getChannelVideos);
+contentRouter.get("/channel/:channelId", authMiddleware, getChannelVideos);
 
 // GET ALL VIDEOS
-contentRouter.get("/all-videos", getAllVideos)
+contentRouter.get("/all-videos", getAllVideos);
+
+// GET SINGLE VIDEO
+contentRouter.get("/fetch-video/:videoId", authMiddleware, fetchVideo);
+
+// UPDATE VIDEO
+contentRouter.put("/update-video/:videoId",authMiddleware,upload.single("thumbnail"),updateVideo);
+
 
 export default contentRouter;
