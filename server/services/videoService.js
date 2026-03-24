@@ -169,3 +169,45 @@ export const addReplyService = async (videoId, commentId, userId, message) => {
     .populate("comments.author", "username photoUrl email")
     .populate("comments.replies.author", "username photoUrl email");
 };
+
+// ADD VIEW
+export const addViewService = async (videoId) => {
+  const video = await Video.findByIdAndUpdate(
+    videoId,
+    { $inc: { views: 1 } },
+    { new: true },
+  );
+
+  if (!video) throw new Error("Video not found");
+
+  return video;
+};
+
+// TOGGLE SAVE
+export const toggleSaveVideoService = async (videoId, userId) => {
+  const video = await Video.findById(videoId);
+  if (!video) throw new Error("Video not found");
+
+  if (video.saveBy.includes(userId)) {
+    video.saveBy.pull(userId);
+  } else {
+    video.saveBy.push(userId);
+  }
+
+  await video.save();
+  return video;
+};
+
+//  TO GET SAVED VIDEOS
+export const getSavedVideosService = async (userId) => {
+  return await Video.find({ saveBy: userId })
+    .populate("channel", "name avatar")
+    .populate("saveBy", "username");
+};
+
+// TO GET LIKED VIDEOS
+export const getLikedVideosService = async (userId) => {
+  return await Video.find({ likes: userId })
+    .populate("channel", "name avatar")
+    .populate("likes", "username");
+};

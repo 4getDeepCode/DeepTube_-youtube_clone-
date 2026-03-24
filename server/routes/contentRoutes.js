@@ -4,13 +4,17 @@ import upload from "../middlewares/multer.js";
 import {
   addComment,
   addReply,
+  addView,
   createVideo,
   deleteVideo,
   fetchVideo,
   getAllVideos,
   getChannelVideos,
+  getLikedVideos,
+  getSavedVideos,
   toggleDislikeVideo,
   toggleLikeVideo,
+  toggleSaveVideo,
   updateVideo,
 } from "../controllers/videoController.js";
 
@@ -67,5 +71,17 @@ contentRouter.post("/video/:videoId/comment", authMiddleware, addComment);
 
 // Add reply to comment
 contentRouter.post("/video/:videoId/:commentId/reply", authMiddleware, addReply);
+
+// Add view
+contentRouter.put("/video/:videoId/add-view", addView);
+
+// Save / Unsave video
+contentRouter.put("/video/:videolikedvideosId/toggle-save", authMiddleware, toggleSaveVideo);
+
+// TO GET SAVED VIDEO
+contentRouter.get("/savevideos",authMiddleware, getSavedVideos);
+
+// TO GET LIKED VIDEO
+contentRouter.get("/likedvideos",authMiddleware, getLikedVideos)
 
 export default contentRouter;

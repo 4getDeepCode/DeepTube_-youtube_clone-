@@ -1,13 +1,17 @@
 import {
   addCommentService,
   addReplyService,
+  addViewService,
   createVideoService,
   deleteVideoService,
   fetchVideoService,
   getAllVideosService,
   getChannelVideosService,
+  getLikedVideosService,
+  getSavedVideosService,
   toggleDislikeVideoService,
   toggleLikeVideoService,
+  toggleSaveVideoService,
   updateVideoService,
 } from "../services/videoService.js";
 
@@ -128,10 +132,50 @@ export const addReply = async (req, res) => {
       req.params.videoId,
       req.params.commentId,
       req.userId,
-      req.body.message
+      req.body.message,
     );
     res.status(201).json(video);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+// VIEW ON VIDEO
+export const addView = async (req, res) => {
+  try {
+    const video = await addViewService(req.params.videoId);
+    res.status(200).json(video);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// SAVE VIDEO
+export const toggleSaveVideo = async (req, res) => {
+  try {
+    const video = await toggleSaveVideoService(req.params.videoId, req.userId);
+    res.status(200).json(video);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// TO GET SAVED VIDEOS
+export const getSavedVideos = async (req, res) => {
+  try {
+    const videos = await getSavedVideosService(req.userId);
+    res.status(200).json(videos);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// LIKED VIDEOS
+export const getLikedVideos = async (req, res) => {
+  try {
+    const videos = await getLikedVideosService(req.userId);
+    res.status(200).json(videos);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
