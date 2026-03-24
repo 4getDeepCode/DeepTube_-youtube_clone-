@@ -108,3 +108,64 @@ export const deleteVideoService = async (videoId) => {
 
   await Video.findByIdAndDelete(videoId);
 };
+
+// TOGGLE LIKE
+export const toggleLikeVideoService = async (videoId, userId) => {
+  const video = await Video.findById(videoId);
+  if (!video) throw new Error("Video not found");
+
+  if (video.likes.includes(userId)) {
+    video.likes.pull(userId);
+  } else {
+    video.likes.push(userId);
+    video.dislikes.pull(userId);
+  }
+
+  await video.save();
+  return video;
+};
+
+//  TOGGLE DISLIKE
+export const toggleDislikeVideoService = async (videoId, userId) => {
+  const video = await Video.findById(videoId);
+  if (!video) throw new Error("Video not found");
+
+  if (video.dislikes.includes(userId)) {
+    video.dislikes.pull(userId);
+  } else {
+    video.dislikes.push(userId);
+    video.likes.pull(userId);
+  }
+
+  await video.save();
+  return video;
+};
+
+// ADD COMMENT
+export const addCommentService = async (videoId, userId, message) => {
+  const video = await Video.findById(videoId);
+  if (!video) throw new Error("Video not found");
+
+  video.comments.push({ author: userId, message });
+  await video.save();
+
+  return await Video.findById(videoId)
+    .populate("comments.author", "username photoUrl email")
+    .populate("comments.replies.author", "username photoUrl email");
+};
+
+// ADD REPLY
+export const addReplyService = async (videoId, commentId, userId, message) => {
+  const video = await Video.findById(videoId);
+  if (!video) throw new Error("Video not found");
+
+  const comment = video.comments.id(commentId);
+  if (!comment) throw new Error("Comment not found");
+
+  comment.replies.push({ author: userId, message });
+  await video.save();
+
+  return await Video.findById(videoId)
+    .populate("comments.author", "username photoUrl email")
+    .populate("comments.replies.author", "username photoUrl email");
+};

@@ -1,9 +1,13 @@
 import {
+  addCommentService,
+  addReplyService,
   createVideoService,
   deleteVideoService,
   fetchVideoService,
   getAllVideosService,
   getChannelVideosService,
+  toggleDislikeVideoService,
+  toggleLikeVideoService,
   updateVideoService,
 } from "../services/videoService.js";
 
@@ -77,5 +81,57 @@ export const deleteVideo = async (req, res) => {
     res.status(200).json({ message: "Deleted successfully" });
   } catch (err) {
     res.status(404).json({ message: err.message });
+  }
+};
+
+// LIKE VIDEO
+export const toggleLikeVideo = async (req, res) => {
+  try {
+    const video = await toggleLikeVideoService(req.params.videoId, req.userId);
+    res.status(200).json(video);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// DISLIKE VIDEO
+export const toggleDislikeVideo = async (req, res) => {
+  try {
+    const video = await toggleDislikeVideoService(
+      req.params.videoId,
+      req.userId,
+    );
+    res.status(200).json(video);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// COMMENT ON VIDEO
+export const addComment = async (req, res) => {
+  try {
+    const video = await addCommentService(
+      req.params.videoId,
+      req.userId,
+      req.body.message,
+    );
+    res.status(201).json(video);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// REPLY ON VIDEO
+export const addReply = async (req, res) => {
+  try {
+    const video = await addReplyService(
+      req.params.videoId,
+      req.params.commentId,
+      req.userId,
+      req.body.message
+    );
+    res.status(201).json(video);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 };

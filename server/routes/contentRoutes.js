@@ -2,11 +2,15 @@ import express from "express";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/multer.js";
 import {
+  addComment,
+  addReply,
   createVideo,
   deleteVideo,
   fetchVideo,
   getAllVideos,
   getChannelVideos,
+  toggleDislikeVideo,
+  toggleLikeVideo,
   updateVideo,
 } from "../controllers/videoController.js";
 
@@ -34,9 +38,34 @@ contentRouter.get("/all-videos", getAllVideos);
 contentRouter.get("/fetch-video/:videoId", authMiddleware, fetchVideo);
 
 // UPDATE VIDEO
-contentRouter.put("/update-video/:videoId",authMiddleware,upload.single("thumbnail"),updateVideo);
+contentRouter.put(
+  "/update-video/:videoId",
+  authMiddleware,
+  upload.single("thumbnail"),
+  updateVideo,
+);
 
 // DELETE VIDEO
-contentRouter.delete("/delete-video/:videoId",authMiddleware,deleteVideo);
+contentRouter.delete("/delete-video/:videoId", authMiddleware, deleteVideo);
+
+// Like video
+contentRouter.put(
+  "/video/:videoId/toggle-like",
+  authMiddleware,
+  toggleLikeVideo,
+);
+
+// Dislike video
+contentRouter.put(
+  "/video/:videoId/toggle-dislike",
+  authMiddleware,
+  toggleDislikeVideo,
+);
+
+// Add comment
+contentRouter.post("/video/:videoId/comment", authMiddleware, addComment);
+
+// Add reply to comment
+contentRouter.post("/video/:videoId/:commentId/reply", authMiddleware, addReply);
 
 export default contentRouter;
