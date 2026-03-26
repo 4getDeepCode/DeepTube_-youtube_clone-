@@ -43,3 +43,25 @@ export const fetchShortService = async (shortId) => {
 
   return short;
 };
+
+// UPDATE SHORT
+export const updateShortService = async (shortId, body) => {
+  const short = await Short.findById(shortId);
+  if (!short) throw new Error("Short not found");
+
+  const { title, description, tags } = body || {};
+
+  if (title) short.title = title;
+  if (description) short.description = description;
+
+  if (tags) {
+    try {
+      short.tags = JSON.parse(tags);
+    } catch {
+      short.tags = [];
+    }
+  }
+
+  await short.save();
+  return short;
+};
