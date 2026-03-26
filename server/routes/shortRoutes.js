@@ -3,6 +3,7 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/multer.js";
 import {
   createShort,
+  deleteShort,
   fetchShort,
   getAllShorts,
   updateShort,
@@ -25,6 +26,14 @@ shortRouter.get("/allshorts", getAllShorts);
 shortRouter.get("/fetch-short/:shortId", fetchShort);
 
 // update short video
-shortRouter.put("/update-short/:shortId", authMiddleware, upload.none(), updateShort);
+shortRouter.put(
+  "/update-short/:shortId",
+  authMiddleware,
+  upload.none(),
+  updateShort,
+);
+
+// delete short video
+shortRouter.delete("/delete-short/:shortId", authMiddleware, deleteShort);
 
 export default shortRouter;

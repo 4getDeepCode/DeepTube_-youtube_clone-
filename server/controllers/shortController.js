@@ -1,4 +1,10 @@
-import { createShortService, fetchShortService, getAllShortsService, updateShortService } from "../services/shortService.js";
+import {
+  createShortService,
+  deleteShortService,
+  fetchShortService,
+  getAllShortsService,
+  updateShortService,
+} from "../services/shortService.js";
 
 // CREATE
 export const createShort = async (req, res) => {
@@ -33,12 +39,19 @@ export const fetchShort = async (req, res) => {
 // UPDATE
 export const updateShort = async (req, res) => {
   try {
-    const short = await updateShortService(
-      req.params.shortId,
-      req.body
-    );
+    const short = await updateShortService(req.params.shortId, req.body);
     res.status(200).json(short);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+// DELETE
+export const deleteShort = async (req, res) => {
+  try {
+    await deleteShortService(req.params.shortId);
+    res.status(200).json({ message: "Deleted successfully" });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
   }
 };

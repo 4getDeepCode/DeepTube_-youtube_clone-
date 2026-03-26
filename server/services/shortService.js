@@ -25,7 +25,6 @@ export const createShortService = async (body, file) => {
   return newShort;
 };
 
-
 // GET ALL SHORTS
 export const getAllShortsService = async () => {
   return await Short.find()
@@ -64,4 +63,16 @@ export const updateShortService = async (shortId, body) => {
 
   await short.save();
   return short;
+};
+
+// DELETE SHORT
+export const deleteShortService = async (shortId) => {
+  const short = await Short.findById(shortId);
+  if (!short) throw new Error("Short not found");
+
+  await Channel.findByIdAndUpdate(short.channel, {
+    $pull: { shorts: short._id },
+  });
+
+  await Short.findByIdAndDelete(shortId);
 };
