@@ -24,3 +24,11 @@ export const createShortService = async (body, file) => {
 
   return newShort;
 };
+
+
+// GET ALL SHORTS
+export const getAllShortsService = async () => {
+  return await Short.find()
+    .populate("channel comments.author comments.replies.author")
+    .sort({ createdAt: -1 });
+};
