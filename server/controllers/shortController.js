@@ -1,4 +1,4 @@
-import { createShortService, getAllShortsService } from "../services/shortService.js";
+import { createShortService, fetchShortService, getAllShortsService } from "../services/shortService.js";
 
 // CREATE
 export const createShort = async (req, res) => {
@@ -17,5 +17,15 @@ export const getAllShorts = async (req, res) => {
     res.status(200).json(shorts);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+// GET ONE
+export const fetchShort = async (req, res) => {
+  try {
+    const short = await fetchShortService(req.params.shortId);
+    res.status(200).json(short);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
   }
 };

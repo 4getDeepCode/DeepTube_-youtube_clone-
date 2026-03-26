@@ -1,7 +1,7 @@
 import express from "express";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/multer.js";
-import { createShort, getAllShorts } from "../controllers/shortController.js";
+import { createShort, fetchShort, getAllShorts } from "../controllers/shortController.js";
 
 const shortRouter = express.Router();
 
@@ -10,6 +10,9 @@ shortRouter.post("/upload-short", authMiddleware, upload.single("video"), create
 
 // get all short video
 shortRouter.get("/allshorts", getAllShorts);
+
+// get single short video
+shortRouter.get("/fetch-short/:shortId", fetchShort);
 
 
 export default shortRouter;

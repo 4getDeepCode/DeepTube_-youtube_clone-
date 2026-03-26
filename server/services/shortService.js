@@ -32,3 +32,14 @@ export const getAllShortsService = async () => {
     .populate("channel comments.author comments.replies.author")
     .sort({ createdAt: -1 });
 };
+
+// GET SINGLE SHORT
+export const fetchShortService = async (shortId) => {
+  const short = await Short.findById(shortId)
+    .populate("channel", "name avatar")
+    .populate("likes", "username photoUrl");
+
+  if (!short) throw new Error("Short not found");
+
+  return short;
+};
