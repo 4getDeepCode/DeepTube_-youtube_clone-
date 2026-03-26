@@ -151,9 +151,14 @@ export const addView = async (req, res) => {
 };
 
 // SAVE VIDEO
+
 export const toggleSaveVideo = async (req, res) => {
   try {
-    const video = await toggleSaveVideoService(req.params.videoId, req.userId);
+    const video = await toggleSaveVideoService(
+      req.params.videoId,
+      req.userId, // or req.user.id
+    );
+
     res.status(200).json(video);
   } catch (err) {
     res.status(400).json({ message: err.message });

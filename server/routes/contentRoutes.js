@@ -76,7 +76,7 @@ contentRouter.post("/video/:videoId/:commentId/reply", authMiddleware, addReply)
 contentRouter.put("/video/:videoId/add-view", addView);
 
 // Save / Unsave video
-contentRouter.put("/video/:videolikedvideosId/toggle-save", authMiddleware, toggleSaveVideo);
+contentRouter.put("/video/:videoId/toggle-save", authMiddleware, toggleSaveVideo);
 
 // TO GET SAVED VIDEO
 contentRouter.get("/savevideos",authMiddleware, getSavedVideos);

@@ -188,10 +188,10 @@ export const toggleSaveVideoService = async (videoId, userId) => {
   const video = await Video.findById(videoId);
   if (!video) throw new Error("Video not found");
 
-  if (video.saveBy.includes(userId)) {
-    video.saveBy.pull(userId);
+  if (video.savedBy.includes(userId)) {
+    video.savedBy.pull(userId);
   } else {
-    video.saveBy.push(userId);
+    video.savedBy.push(userId);
   }
 
   await video.save();
