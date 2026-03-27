@@ -76,3 +76,35 @@ export const deleteShortService = async (shortId) => {
 
   await Short.findByIdAndDelete(shortId);
 };
+
+// LIKE SHORT
+export const toggleLikeShortService = async (shortId, userId) => {
+  const short = await Short.findById(shortId);
+  if (!short) throw new Error("Short not found");
+
+  if (short.likes.includes(userId)) {
+    short.likes.pull(userId);
+  } else {
+    short.likes.push(userId);
+    short.dislikes.pull(userId);
+  }
+
+  await short.save();
+  return short;
+};
+
+// DISLIKE
+export const toggleDislikeShortService = async (shortId, userId) => {
+  const short = await Short.findById(shortId);
+  if (!short) throw new Error("Short not found");
+
+  if (short.dislikes.includes(userId)) {
+    short.dislikes.pull(userId);
+  } else {
+    short.dislikes.push(userId);
+    short.likes.pull(userId);
+  }
+
+  await short.save();
+  return short;
+};

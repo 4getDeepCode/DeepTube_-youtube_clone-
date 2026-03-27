@@ -6,6 +6,8 @@ import {
   deleteShort,
   fetchShort,
   getAllShorts,
+  toggleDislikeShort,
+  toggleLikeShort,
   updateShort,
 } from "../controllers/shortController.js";
 
@@ -35,5 +37,11 @@ shortRouter.put(
 
 // delete short video
 shortRouter.delete("/delete-short/:shortId", authMiddleware, deleteShort);
+
+// like short video
+shortRouter.put("/like/:shortId/toggle-like", authMiddleware, toggleLikeShort);
+
+//  dislike short video
+shortRouter.put("/dislike/:shortId/toggle-dislike", authMiddleware, toggleDislikeShort);
 
 export default shortRouter;

@@ -3,6 +3,8 @@ import {
   deleteShortService,
   fetchShortService,
   getAllShortsService,
+  toggleDislikeShortService,
+  toggleLikeShortService,
   updateShortService,
 } from "../services/shortService.js";
 
@@ -53,5 +55,31 @@ export const deleteShort = async (req, res) => {
     res.status(200).json({ message: "Deleted successfully" });
   } catch (err) {
     res.status(404).json({ message: err.message });
+  }
+};
+
+// LIKE
+export const toggleLikeShort = async (req, res) => {
+  try {
+    const short = await toggleLikeShortService(
+      req.params.shortId,
+      req.userId
+    );
+    res.status(200).json(short);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// DISLIKE
+export const toggleDislikeShort = async (req, res) => {
+  try {
+    const short = await toggleDislikeShortService(
+      req.params.shortId,
+      req.userId
+    );
+    res.status(200).json(short);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 };
