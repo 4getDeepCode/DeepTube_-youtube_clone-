@@ -2,6 +2,7 @@ import express from "express";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/multer.js";
 import {
+  addCommentforShort,
   createShort,
   deleteShort,
   fetchShort,
@@ -42,6 +43,13 @@ shortRouter.delete("/delete-short/:shortId", authMiddleware, deleteShort);
 shortRouter.put("/like/:shortId/toggle-like", authMiddleware, toggleLikeShort);
 
 //  dislike short video
-shortRouter.put("/dislike/:shortId/toggle-dislike", authMiddleware, toggleDislikeShort);
+shortRouter.put(
+  "/dislike/:shortId/toggle-dislike",
+  authMiddleware,
+  toggleDislikeShort,
+);
+
+//  Add comment short video
+shortRouter.post("/comment/:shortId", authMiddleware, addCommentforShort);
 
 export default shortRouter;

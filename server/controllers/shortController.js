@@ -1,4 +1,5 @@
 import {
+  addCommentShortService,
   createShortService,
   deleteShortService,
   fetchShortService,
@@ -61,10 +62,7 @@ export const deleteShort = async (req, res) => {
 // LIKE
 export const toggleLikeShort = async (req, res) => {
   try {
-    const short = await toggleLikeShortService(
-      req.params.shortId,
-      req.userId
-    );
+    const short = await toggleLikeShortService(req.params.shortId, req.userId);
     res.status(200).json(short);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -76,9 +74,23 @@ export const toggleDislikeShort = async (req, res) => {
   try {
     const short = await toggleDislikeShortService(
       req.params.shortId,
-      req.userId
+      req.userId,
     );
     res.status(200).json(short);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// COMMENT
+export const addCommentforShort = async (req, res) => {
+  try {
+    const short = await addCommentShortService(
+      req.params.shortId,
+      req.userId,
+      req.body.message
+    );
+    res.status(201).json(short);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

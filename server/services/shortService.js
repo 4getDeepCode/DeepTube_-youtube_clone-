@@ -108,3 +108,17 @@ export const toggleDislikeShortService = async (shortId, userId) => {
   await short.save();
   return short;
 };
+
+// COMMENT
+export const addCommentShortService = async (shortId, userId, message) => {
+  const short = await Short.findById(shortId);
+  if (!short) throw new Error("Short not found");
+
+  short.comments.unshift({ author: userId, message });
+  await short.save();
+
+  return await Short.findById(shortId)
+    .populate("comments.author", "username photoUrl")
+    .populate("comments.replies.author", "username photoUrl")
+    .populate("channel");
+};
