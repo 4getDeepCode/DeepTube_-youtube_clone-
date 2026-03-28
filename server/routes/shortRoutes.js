@@ -4,12 +4,14 @@ import upload from "../middlewares/multer.js";
 import {
   addCommentforShort,
   addReplyforShort,
+  addViewforShort,
   createShort,
   deleteShort,
   fetchShort,
   getAllShorts,
   toggleDislikeShort,
   toggleLikeShort,
+  toggleSaveShort,
   updateShort,
 } from "../controllers/shortController.js";
 
@@ -54,6 +56,20 @@ shortRouter.put(
 shortRouter.post("/comment/:shortId", authMiddleware, addCommentforShort);
 
 // Add reply to comment short
-shortRouter.post("/comment/:shortId/:commentId/reply", authMiddleware, addReplyforShort);
+shortRouter.post(
+  "/comment/:shortId/:commentId/reply",
+  authMiddleware,
+  addReplyforShort,
+);
+
+//  Add view
+shortRouter.put("/add-view/:shortId", authMiddleware, addViewforShort);
+
+// Save / Unsave short
+shortRouter.put(
+  "/save-short/:shortId/toggle-save",
+  authMiddleware,
+  toggleSaveShort,
+);
 
 export default shortRouter;

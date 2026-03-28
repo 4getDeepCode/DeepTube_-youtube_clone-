@@ -124,7 +124,12 @@ export const addCommentShortService = async (shortId, userId, message) => {
 };
 
 // REPLY
-export const addReplyShortService = async (shortId, commentId, userId, message) => {
+export const addReplyShortService = async (
+  shortId,
+  commentId,
+  userId,
+  message,
+) => {
   const short = await Short.findById(shortId);
   if (!short) throw new Error("Short not found");
 
@@ -138,4 +143,32 @@ export const addReplyShortService = async (shortId, commentId, userId, message) 
     .populate("comments.author", "username photoUrl")
     .populate("comments.replies.author", "username photoUrl")
     .populate("channel");
+};
+
+// VIEW
+export const addViewShortService = async (shortId) => {
+  const short = await Short.findByIdAndUpdate(
+    shortId,
+    { $inc: { views: 1 } },
+    { new: true },
+  );
+
+  if (!short) throw new Error("Short not found");
+
+  return short;
+};
+
+// SAVE SHORT VIDEO
+export const toggleSaveShortService = async (shortId, userId) => {
+  const short = await Short.findById(shortId);
+  if (!short) throw new Error("Short not found");
+
+  if (short.savedBy.includes(userId)) {
+    short.savedBy.pull(userId);
+  } else {
+    short.savedBy.push(userId);
+  }
+
+  await short.save();
+  return short;
 };

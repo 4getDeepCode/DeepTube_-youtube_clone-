@@ -1,12 +1,14 @@
 import {
   addCommentShortService,
   addReplyShortService,
+  addViewShortService,
   createShortService,
   deleteShortService,
   fetchShortService,
   getAllShortsService,
   toggleDislikeShortService,
   toggleLikeShortService,
+  toggleSaveShortService,
   updateShortService,
 } from "../services/shortService.js";
 
@@ -107,6 +109,26 @@ export const addReplyforShort = async (req, res) => {
       req.body.message,
     );
     res.status(201).json(short);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// VIEW
+export const addViewforShort = async (req, res) => {
+  try {
+    const short = await addViewShortService(req.params.shortId);
+    res.status(200).json(short);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// SAVE SHORT VIDEO
+export const toggleSaveShort = async (req, res) => {
+  try {
+    const short = await toggleSaveShortService(req.params.shortId, req.userId);
+    res.status(200).json(short);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
