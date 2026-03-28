@@ -122,3 +122,20 @@ export const addCommentShortService = async (shortId, userId, message) => {
     .populate("comments.replies.author", "username photoUrl")
     .populate("channel");
 };
+
+// REPLY
+export const addReplyShortService = async (shortId, commentId, userId, message) => {
+  const short = await Short.findById(shortId);
+  if (!short) throw new Error("Short not found");
+
+  const comment = short.comments.id(commentId);
+  if (!comment) throw new Error("Comment not found");
+
+  comment.replies.unshift({ author: userId, message });
+  await short.save();
+
+  return await Short.findById(shortId)
+    .populate("comments.author", "username photoUrl")
+    .populate("comments.replies.author", "username photoUrl")
+    .populate("channel");
+};

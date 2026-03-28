@@ -3,6 +3,7 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/multer.js";
 import {
   addCommentforShort,
+  addReplyforShort,
   createShort,
   deleteShort,
   fetchShort,
@@ -51,5 +52,8 @@ shortRouter.put(
 
 //  Add comment short video
 shortRouter.post("/comment/:shortId", authMiddleware, addCommentforShort);
+
+// Add reply to comment short
+shortRouter.post("/comment/:shortId/:commentId/reply", authMiddleware, addReplyforShort);
 
 export default shortRouter;

@@ -1,5 +1,6 @@
 import {
   addCommentShortService,
+  addReplyShortService,
   createShortService,
   deleteShortService,
   fetchShortService,
@@ -88,7 +89,22 @@ export const addCommentforShort = async (req, res) => {
     const short = await addCommentShortService(
       req.params.shortId,
       req.userId,
-      req.body.message
+      req.body.message,
+    );
+    res.status(201).json(short);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+// REPLY
+export const addReplyforShort = async (req, res) => {
+  try {
+    const short = await addReplyShortService(
+      req.params.shortId,
+      req.params.commentId,
+      req.userId,
+      req.body.message,
     );
     res.status(201).json(short);
   } catch (err) {
