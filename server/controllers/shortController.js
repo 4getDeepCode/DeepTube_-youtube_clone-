@@ -6,6 +6,8 @@ import {
   deleteShortService,
   fetchShortService,
   getAllShortsService,
+  getLikedShortsService,
+  getSavedShortsService,
   toggleDislikeShortService,
   toggleLikeShortService,
   toggleSaveShortService,
@@ -131,5 +133,26 @@ export const toggleSaveShort = async (req, res) => {
     res.status(200).json(short);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+
+// SAVED
+export const getSavedShorts = async (req, res) => {
+  try {
+    const shorts = await getSavedShortsService(req.userId);
+    res.status(200).json(shorts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// LIKED
+export const getLikedShorts = async (req, res) => {
+  try {
+    const shorts = await getLikedShortsService(req.userId);
+    res.status(200).json(shorts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

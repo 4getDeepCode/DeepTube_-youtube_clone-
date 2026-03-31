@@ -7,6 +7,7 @@ import authRouter from './routes/authRoutes.js'
 import userRouter from './routes/userRoutes.js'
 import contentRouter from './routes/contentRoutes.js'
 import shortRouter from './routes/shortRoutes.js'
+import postRouter from './routes/postRoutes.js'
 
 const port = process.env.PORT;
 const app = express();
@@ -24,6 +25,7 @@ app.use("/api/auth",authRouter)
 app.use("/api/user",userRouter)
 app.use("/api/content",contentRouter)
 app.use("/api/short",shortRouter)
+app.use("/api/post", postRouter) 
 
 app.get("/", (req, res) => {
   res.send("Hello from server");

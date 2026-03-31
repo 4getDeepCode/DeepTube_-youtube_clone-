@@ -9,6 +9,8 @@ import {
   deleteShort,
   fetchShort,
   getAllShorts,
+  getLikedShorts,
+  getSavedShorts,
   toggleDislikeShort,
   toggleLikeShort,
   toggleSaveShort,
@@ -71,5 +73,11 @@ shortRouter.put(
   authMiddleware,
   toggleSaveShort,
 );
+
+// Get Saved Shorts
+shortRouter.get("/savedshorts",authMiddleware, getSavedShorts)
+
+// Get Liked Shorts
+shortRouter.get("/likedshorts",authMiddleware, getLikedShorts)
 
 export default shortRouter;

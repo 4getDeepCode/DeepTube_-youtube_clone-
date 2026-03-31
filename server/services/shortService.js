@@ -172,3 +172,17 @@ export const toggleSaveShortService = async (shortId, userId) => {
   await short.save();
   return short;
 };
+
+// SAVED SHORTS
+export const getSavedShortsService = async (userId) => {
+  return await Short.find({ savedBy: userId })
+    .populate("channel", "name avatar")
+    .populate("savedBy", "username");
+};
+
+// LIKED SHORTS
+export const getLikedShortsService = async (userId) => {
+  return await Short.find({ likes: userId })
+    .populate("channel", "name avatar")
+    .populate("likes", "username");
+};
